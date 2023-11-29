@@ -41,28 +41,14 @@ object MontyHallSimulation extends App {
 
       val carDoor = doorsRange(random.nextInt(doorsRange.length))
       val chosenDoor = doorsRange(random.nextInt(doorsRange.length))
-      val remainingDoors =
-        doorsRange.filterNot(_ == carDoor).filterNot(_ == chosenDoor)
-      val openedDoor = remainingDoors(
-        random.nextInt(remainingDoors.length)
-      )
-      val switchedDoor =
-        (doorsRange)
-          .filterNot(_ == chosenDoor)
-          .filterNot(_ == openedDoor)
-          .head
+      val remainingDoors = doorsRange.filterNot(_ == carDoor).filterNot(_ == chosenDoor)
+      val openedDoor = remainingDoors(random.nextInt(remainingDoors.length))
+      val switchedDoor = (doorsRange).filterNot(_ == chosenDoor).filterNot(_ == openedDoor).head
 
-      val updatedSwitchWins =
-        if (switchedDoor == carDoor) switchWins + 1 else switchWins
-      val updatedKeepWins =
-        if (chosenDoor == carDoor) keepWins + 1 else keepWins
+      val updatedSwitchWins = if (switchedDoor == carDoor) switchWins + 1 else switchWins
+      val updatedKeepWins = if (chosenDoor == carDoor) keepWins + 1 else keepWins
 
-      simulateGame(
-        remainingTrials - 1,
-        updatedSwitchWins,
-        updatedKeepWins,
-        random
-      )
+      simulateGame(remainingTrials - 1, updatedSwitchWins, updatedKeepWins, random)
     }
   }
 
@@ -81,8 +67,5 @@ object MontyHallSimulation extends App {
   val keepWinPercentage = keepWins.toDouble / numTrials * 100
 
   println(s"Switching doors win percentage: $switchWinPercentage%")
-  println(
-    s"Keeping initial choice win percentage: $keepWinPercentage%"
-  )
-
+  println(s"Keeping initial choice win percentage: $keepWinPercentage%")
 }
