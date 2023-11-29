@@ -26,22 +26,29 @@
 import scala.util.Random
 
 object MontyHallSimulation extends App {
-  val random = new Random()
-
   val numTrials = 100
 
-  def recursiveFunction(numTrials: Int): Unit = {
-    if (numTrials <= 0) {
+  def simulateGame(remainingTrials: Int, random: Random): Unit = {
+    if (remainingTrials <= 0) {
       println("100 trials done")
     } else {
       val carDoor = random.between(1, 4)
       val chosenDoor = random.between(1, 4)
 
-      println(s"$numTrials = car door is $carDoor and chosen door is $chosenDoor")
+      val doorsRange = 1 to 3
+      val remainingDoors = doorsRange.filterNot(_ == carDoor).filterNot(_ == chosenDoor)
+      val openedDoor = remainingDoors(random.nextInt(remainingDoors.length))
 
-      recursiveFunction(numTrials - 1)
+      println(s"$remainingTrials = car door is $carDoor and chosen door is $chosenDoor, remaining doors are $remainingDoors and opened door is $openedDoor")
+
+      simulateGame(remainingTrials - 1, random)
     }
   }
 
-  recursiveFunction(numTrials)
+  def runTrials(numTrials: Int): (Unit) = {
+    val random = new Random()
+    simulateGame(numTrials, random)
+  }
+
+  runTrials(numTrials)
 }
