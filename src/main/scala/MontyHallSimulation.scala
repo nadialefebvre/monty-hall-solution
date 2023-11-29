@@ -32,10 +32,11 @@ object MontyHallSimulation extends App {
     if (remainingTrials <= 0) {
       println("100 trials done")
     } else {
-      val carDoor = random.between(1, 4)
-      val chosenDoor = random.between(1, 4)
-
       val doorsRange = 1 to 3
+
+      val carDoor = doorsRange(random.nextInt(doorsRange.length))
+      val chosenDoor = doorsRange(random.nextInt(doorsRange.length))
+
       val remainingDoors = doorsRange.filterNot(_ == carDoor).filterNot(_ == chosenDoor)
       val openedDoor = remainingDoors(random.nextInt(remainingDoors.length))
 
