@@ -7,7 +7,7 @@
     - Is it to their advantage to switch? (short answer: yes, 2/3 probability)
 
   Set up game variables:
-    - Define the total number of trials to simulate (hard coded for now)
+    - Define the total number of trials to simulate
     - Create variables to keep track of both numbers of wins for switching and for keeping door
 
   Define a recursive function to perform the simulation until the number of trials is reached, which will:
@@ -25,9 +25,7 @@
 
 import scala.util.Random
 
-object MontyHallSimulation extends App {
-  val numTrials = 100
-
+object MontyHallSimulation {
   def simulateGame(
       remainingTrials: Int,
       switchWins: Int,
@@ -43,7 +41,7 @@ object MontyHallSimulation extends App {
       val chosenDoor = doorsRange(random.nextInt(doorsRange.length))
       val remainingDoors = doorsRange.filterNot(_ == carDoor).filterNot(_ == chosenDoor)
       val openedDoor = remainingDoors(random.nextInt(remainingDoors.length))
-      val switchedDoor = (doorsRange).filterNot(_ == chosenDoor).filterNot(_ == openedDoor).head
+      val switchedDoor = doorsRange.filterNot(_ == chosenDoor).filterNot(_ == openedDoor).head
 
       val updatedSwitchWins = if (switchedDoor == carDoor) switchWins + 1 else switchWins
       val updatedKeepWins = if (chosenDoor == carDoor) keepWins + 1 else keepWins
@@ -57,15 +55,19 @@ object MontyHallSimulation extends App {
     simulateGame(numTrials, 0, 0, random)
   }
 
-  val (switchWins, keepWins) = runTrials(numTrials)
+  def main(args: Array[String]): Unit = {
+    val numTrials = if (args.length > 0) args(0).toInt else 100
 
-  println(s"Number of trials in this simulation: $numTrials")
-  println(s"Switching doors wins: $switchWins times")
-  println(s"Keeping initial choice wins: $keepWins times")
+    val (switchWins, keepWins) = runTrials(numTrials)
 
-  val switchWinPercentage = switchWins.toDouble / numTrials * 100
-  val keepWinPercentage = keepWins.toDouble / numTrials * 100
+    println(s"Number of trials in this simulation: $numTrials")
+    println(s"Switching doors wins: $switchWins times")
+    println(s"Keeping initial choice wins: $keepWins times")
 
-  println(s"Switching doors win percentage: $switchWinPercentage%")
-  println(s"Keeping initial choice win percentage: $keepWinPercentage%")
+    val switchWinPercentage = switchWins.toDouble / numTrials * 100
+    val keepWinPercentage = keepWins.toDouble / numTrials * 100
+
+    println(s"Switching doors win percentage: $switchWinPercentage%")
+    println(s"Keeping initial choice win percentage: $keepWinPercentage%")
+  }
 }
