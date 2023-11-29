@@ -23,6 +23,25 @@
     - Calculate and display win percentages for both strategies
 */
 
+import scala.util.Random
+
 object MontyHallSimulation extends App {
-  println("Solution will be here!")
+  val random = new Random()
+
+  val numTrials = 100
+
+  def recursiveFunction(numTrials: Int): Unit = {
+    if (numTrials <= 0) {
+      println("100 trials done")
+    } else {
+      val carDoor = random.between(1, 4)
+      val chosenDoor = random.between(1, 4)
+
+      println(s"$numTrials = car door is $carDoor and chosen door is $chosenDoor")
+
+      recursiveFunction(numTrials - 1)
+    }
+  }
+
+  recursiveFunction(numTrials)
 }
