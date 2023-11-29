@@ -40,8 +40,9 @@ object MontyHallSimulation extends App {
       val remainingDoors = doorsRange.filterNot(_ == carDoor).filterNot(_ == chosenDoor)
       val openedDoor = remainingDoors(random.nextInt(remainingDoors.length))
 
-      println(s"$remainingTrials = car door is $carDoor and chosen door is $chosenDoor, remaining doors are $remainingDoors and opened door is $openedDoor")
+      val switchedDoor = (doorsRange).filterNot(_ == chosenDoor).filterNot(_ == openedDoor).head
 
+      println(s"$remainingTrials = car door is $carDoor and chosen door is $chosenDoor, remaining doors are $remainingDoors and opened door is $openedDoor and switched door is $switchedDoor")
       simulateGame(remainingTrials - 1, random)
     }
   }
