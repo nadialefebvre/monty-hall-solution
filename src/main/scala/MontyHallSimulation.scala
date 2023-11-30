@@ -108,7 +108,7 @@ object MontyHallSimulation {
           useDefaultNumTrials()
       }
     case _ =>
-      println(Console.RED + "Invalid number of arguments, please provide only one argument.")
+      println(Console.RED + "Invalid number of arguments, only one argument is accepted.")
       useDefaultNumTrials()
   }
 
