@@ -9,7 +9,7 @@
   */
 
 import scala.annotation.tailrec
-import scala.util.{Failure, Random, Success, Try}
+import scala.util.{Random, Success, Try}
 
 /** Represents a round of the Monty Hall game.
   *
