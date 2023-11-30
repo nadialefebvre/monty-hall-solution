@@ -10,26 +10,29 @@
 import scala.annotation.tailrec
 import scala.util.{Failure, Random, Success, Try}
 
-object MontyHallSimulation {
-  val DefaultNumTrials = 100
-  val Doors = Vector(1, 2, 3)
+case class Round(prizeDoor: Int, chosenDoor: Int, switchedDoor: Int)
 
-  def getRandomDoor(range: Vector[Int], random: Random): Int = {
-    range(random.nextInt(range.length))
+class MontyHallGame {
+  private final val Doors = Vector(1, 2, 3)
+
+  def getRandomDoor(doors: Vector[Int], random: Random): Int = {
+    doors(random.nextInt(doors.length))
   }
 
-  def simulateRound(random: Random): (Int, Int, Int) = {
+  def simulateRound(random: Random): Round = {
     val prizeDoor = getRandomDoor(Doors, random)
+
     val chosenDoor = getRandomDoor(Doors, random)
+
     val remainingDoors = Doors.filterNot(_ == prizeDoor).filterNot(_ == chosenDoor)
     val openedDoor = getRandomDoor(remainingDoors, random)
     val switchedDoor = Doors.find(door => door != chosenDoor && door != openedDoor).get
 
-    (prizeDoor, chosenDoor, switchedDoor)
+    Round(prizeDoor, chosenDoor, switchedDoor)
   }
 
   @tailrec
-  def simulateGame(
+  final def simulateGame(
       remainingTrials: Int,
       switchWins: Int,
       keepWins: Int,
@@ -38,7 +41,7 @@ object MontyHallSimulation {
     if (remainingTrials <= 0) {
       (switchWins, keepWins)
     } else {
-      val (prizeDoor, chosenDoor, switchedDoor) = simulateRound(random)
+      val Round(prizeDoor, chosenDoor, switchedDoor) = simulateRound(random)
 
       val updatedSwitchWins = if (switchedDoor == prizeDoor) switchWins + 1 else switchWins
       val updatedKeepWins = if (chosenDoor == prizeDoor) keepWins + 1 else keepWins
@@ -46,6 +49,10 @@ object MontyHallSimulation {
       simulateGame(remainingTrials - 1, updatedSwitchWins, updatedKeepWins, random)
     }
   }
+}
+
+object MontyHallSimulation {
+  private final val DefaultNumTrials = 100
 
   def useDefaultNumTrials(): Int = {
     println(s"Using default value: $DefaultNumTrials")
@@ -70,10 +77,10 @@ object MontyHallSimulation {
 
   def main(args: Array[String]): Unit = {
     val numTrials = if (args.nonEmpty) parseNumTrials(args) else DefaultNumTrials
-
     val random = new Random()
+    val montyHallGame = new MontyHallGame()
 
-    val (switchWins, keepWins) = simulateGame(numTrials, 0, 0, random)
+    val (switchWins, keepWins) = montyHallGame.simulateGame(numTrials, 0, 0, random)
 
     println(Console.RESET + s"Number of trials in this simulation: $numTrials")
     println(s"Switching doors wins: $switchWins times")
