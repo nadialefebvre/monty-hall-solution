@@ -53,10 +53,10 @@ class MontyHallGame {
   /** Recursively simulates the Monty Hall game for a specified number of trials.
     *
     * @param remainingTrials Number of trials remaining to simulate.
-    * @param switchWins Count of wins when switching doors.
-    * @param keepWins Count of wins when keeping the initial choice.
+    * @param switchWins Wins count when switching doors.
+    * @param keepWins Wins count when keeping the initial choice.
     * @param random Random object for generating random numbers.
-    * @return Tuple containing counts of wins when switching and keeping the initial choice.
+    * @return Tuple containing wins counts when switching and keeping the initial choice.
     */
   @tailrec
   final def simulateGame(
@@ -108,7 +108,7 @@ object MontyHallSimulation {
           useDefaultNumTrials()
       }
     case _ =>
-      println(Console.RED + "Invalid number of arguments. Please provide only one argument.")
+      println(Console.RED + "Invalid number of arguments, please provide only one argument.")
       useDefaultNumTrials()
   }
 
