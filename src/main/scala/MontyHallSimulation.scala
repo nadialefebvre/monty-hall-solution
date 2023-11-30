@@ -8,10 +8,7 @@
  */
 
 import scala.annotation.tailrec
-import scala.util.Failure
-import scala.util.Random
-import scala.util.Success
-import scala.util.Try
+import scala.util.{Failure, Random, Success, Try}
 
 object MontyHallSimulation {
   val DefaultNumTrials = 100
@@ -51,23 +48,25 @@ object MontyHallSimulation {
     }
   }
 
+  def useDefaultNumTrials(): Int = {
+    println(s"Using default value: $DefaultNumTrials")
+    DefaultNumTrials
+  }
+
   def parseNumTrials(args: Array[String]): Int = args match {
     case Array(value) =>
       Try(value.toInt) match {
         case Success(trials) if trials > 0 => trials
         case Success(_) =>
           println(Console.RED + "Number of trials should be higher than 0.")
-          println(s"Using default value: $DefaultNumTrials")
-          100
+          useDefaultNumTrials
         case Failure(_) =>
           println(Console.RED + "Invalid type of input for number of trials.")
-          println(s"Using default value: $DefaultNumTrials")
-          100
+          useDefaultNumTrials
       }
     case _ =>
       println(Console.RED + "Invalid number of arguments. Please provide only one argument.")
-      println(s"Using default value: $DefaultNumTrials")
-      100
+      useDefaultNumTrials
   }
 
   def main(args: Array[String]): Unit = {
