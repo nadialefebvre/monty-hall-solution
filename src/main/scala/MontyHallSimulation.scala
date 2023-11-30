@@ -51,36 +51,31 @@ object MontyHallSimulation {
     }
   }
 
-  def runTrials(numTrials: Int): (Int, Int) = {
-    val random = new Random()
-    simulateGame(numTrials, 0, 0, random)
-  }
-
   def parseNumTrials(args: Array[String]): Int = args match {
     case Array(value) =>
       Try(value.toInt) match {
         case Success(trials) if trials > 0 => trials
         case Success(_) =>
-          println(
-            Console.RED + s"Number of trials should be > 0. Using default value: $DefaultNumTrials"
-          )
+          println(Console.RED + "Number of trials should be higher than 0.")
+          println(s"Using default value: $DefaultNumTrials")
           100
         case Failure(_) =>
-          println(
-            Console.RED + s"Invalid input for number of trials. Using default value: $DefaultNumTrials"
-          )
+          println(Console.RED + "Invalid type of input for number of trials.")
+          println(s"Using default value: $DefaultNumTrials")
           100
       }
     case _ =>
       println(Console.RED + "Invalid number of arguments. Please provide only one argument.")
-      println(Console.RED + s"Using default value: $DefaultNumTrials")
+      println(s"Using default value: $DefaultNumTrials")
       100
   }
 
   def main(args: Array[String]): Unit = {
     val numTrials = if (args.nonEmpty) parseNumTrials(args) else DefaultNumTrials
 
-    val (switchWins, keepWins) = runTrials(numTrials)
+    val random = new Random()
+
+    val (switchWins, keepWins) = simulateGame(numTrials, 0, 0, random)
 
     println(Console.RESET + s"Number of trials in this simulation: $numTrials")
     println(s"Switching doors wins: $switchWins times")
