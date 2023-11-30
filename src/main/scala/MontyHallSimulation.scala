@@ -7,7 +7,11 @@
     - Is it to their advantage to switch? (short answer: yes, 2/3 probability)
  */
 
+import scala.annotation.tailrec
+import scala.util.Failure
 import scala.util.Random
+import scala.util.Success
+import scala.util.Try
 
 object MontyHallSimulation {
   def getRandomDoor(range: Seq[Int], random: Random): Int = {
@@ -26,6 +30,7 @@ object MontyHallSimulation {
     (prizeDoor, chosenDoor, switchedDoor)
   }
 
+  @tailrec
   def simulateGame(
       remainingTrials: Int,
       switchWins: Int,
@@ -49,12 +54,29 @@ object MontyHallSimulation {
     simulateGame(numTrials, 0, 0, random)
   }
 
+  def parseNumTrials(args: Array[String]): Int = args match {
+    case Array(value) =>
+      Try(value.toInt) match {
+        case Success(trials) if trials > 0 => trials
+        case Success(_) =>
+          println(Console.RED + "Number of trials should be > 0. Using default value: 100")
+          100
+        case Failure(_) =>
+          println(Console.RED + "Invalid input for number of trials. Using default value: 100")
+          100
+      }
+    case _ =>
+      println(Console.RED + "Invalid number of arguments. Please provide only one argument.")
+      println(Console.RED + "Using default value: 100")
+      100
+  }
+
   def main(args: Array[String]): Unit = {
-    val numTrials = if (args.nonEmpty) args(0).toInt else 100
+    val numTrials = if (args.nonEmpty) parseNumTrials(args) else 100
 
     val (switchWins, keepWins) = runTrials(numTrials)
 
-    println(s"Number of trials in this simulation: $numTrials")
+    println(Console.RESET + s"Number of trials in this simulation: $numTrials")
     println(s"Switching doors wins: $switchWins times")
     println(s"Keeping initial choice wins: $keepWins times")
 
