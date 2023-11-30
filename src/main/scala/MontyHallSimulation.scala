@@ -17,7 +17,7 @@ import scala.util.{Failure, Random, Success, Try}
   * @param chosenDoor Door initially chosen by the player.
   * @param switchedDoor Door the player switches to (if they choose to switch).
   */
-case class Round(prizeDoor: Int, chosenDoor: Int, switchedDoor: Int)
+case class MontyHallRound(prizeDoor: Int, chosenDoor: Int, switchedDoor: Int)
 
 /** Wraps up the Monty Hall game logic. */
 class MontyHallGame {
@@ -36,9 +36,9 @@ class MontyHallGame {
   /** Simulates a round of the Monty Hall game.
     *
     * @param random Random object for generating random numbers.
-    * @return Round object representing the outcome of the round.
+    * @return MontyHallRound object representing the outcome of the round.
     */
-  def simulateRound(random: Random): Round = {
+  def simulateRound(random: Random): MontyHallRound = {
     val prizeDoor = getRandomDoor(Doors, random)
 
     val chosenDoor = getRandomDoor(Doors, random)
@@ -47,7 +47,7 @@ class MontyHallGame {
     val openedDoor = getRandomDoor(remainingDoors, random)
     val switchedDoor = Doors.find(door => door != chosenDoor && door != openedDoor).get
 
-    Round(prizeDoor, chosenDoor, switchedDoor)
+    MontyHallRound(prizeDoor, chosenDoor, switchedDoor)
   }
 
   /** Recursively simulates the Monty Hall game for a specified number of trials.
@@ -68,7 +68,7 @@ class MontyHallGame {
     if (remainingTrials <= 0) {
       (switchWins, keepWins)
     } else {
-      val Round(prizeDoor, chosenDoor, switchedDoor) = simulateRound(random)
+      val MontyHallRound(prizeDoor, chosenDoor, switchedDoor) = simulateRound(random)
 
       val updatedSwitchWins = if (switchedDoor == prizeDoor) switchWins + 1 else switchWins
       val updatedKeepWins = if (chosenDoor == prizeDoor) keepWins + 1 else keepWins
