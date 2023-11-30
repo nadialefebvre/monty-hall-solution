@@ -14,6 +14,8 @@ import scala.util.Success
 import scala.util.Try
 
 object MontyHallSimulation {
+  val DefaultNumTrials = 100
+
   def getRandomDoor(range: Seq[Int], random: Random): Int = {
     range(random.nextInt(range.length))
   }
@@ -59,20 +61,24 @@ object MontyHallSimulation {
       Try(value.toInt) match {
         case Success(trials) if trials > 0 => trials
         case Success(_) =>
-          println(Console.RED + "Number of trials should be > 0. Using default value: 100")
+          println(
+            Console.RED + s"Number of trials should be > 0. Using default value: $DefaultNumTrials"
+          )
           100
         case Failure(_) =>
-          println(Console.RED + "Invalid input for number of trials. Using default value: 100")
+          println(
+            Console.RED + s"Invalid input for number of trials. Using default value: $DefaultNumTrials"
+          )
           100
       }
     case _ =>
       println(Console.RED + "Invalid number of arguments. Please provide only one argument.")
-      println(Console.RED + "Using default value: 100")
+      println(Console.RED + s"Using default value: $DefaultNumTrials")
       100
   }
 
   def main(args: Array[String]): Unit = {
-    val numTrials = if (args.nonEmpty) parseNumTrials(args) else 100
+    val numTrials = if (args.nonEmpty) parseNumTrials(args) else DefaultNumTrials
 
     val (switchWins, keepWins) = runTrials(numTrials)
 
