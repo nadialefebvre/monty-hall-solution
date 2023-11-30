@@ -1,4 +1,4 @@
-# Monty Hall solution - default
+# Monty Hall solution - with default
 
 The Monty Hall solution is an implementation of the Monty Hall problem, a probability puzzle inspired by a game show. This code simulates the probability problem where a player is presented with three doors, one hiding a car prize and the other two, goats. The player initially selects one door, after which the host reveals a non-chosen door that doesn't hide the car. The player is then given the choice to keep their initial choice or switch to the other unopened door.
 
