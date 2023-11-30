@@ -1,24 +1,43 @@
-/*
-  Monty Hall problem in short:
-    - A player is given the choice of three doors, one hiding a car prize and the others, goats
-    - The player selects one door without opening it
-    - A non-chosen door not hiding the car is revealed by the host
-    - The player has then the possibility to keep their initial choice or to switch for the non-opened door
-    - Is it to their advantage to switch? (short answer: yes, 2/3 probability)
- */
+/** The Monty Hall problem is a probability puzzle based on a game show scenario. The gameplay
+  * involves the following steps:
+  *   - A player is given the choice of three doors, one hiding a car prize and the others, goats.
+  *   - The player selects one door without opening it.
+  *   - A non-chosen door not hiding the car is revealed by the host.
+  *   - The player has the option to keep their initial choice or switch to the non-opened door.
+  * Is it to the player's advantage to switch? (Short answer: yes, with a 2/3 probability).
+  * @see https://en.wikipedia.org/wiki/Monty_Hall_problem
+  */
 
 import scala.annotation.tailrec
 import scala.util.{Failure, Random, Success, Try}
 
+/** Represents a round of the Monty Hall game.
+  *
+  * @param prizeDoor Door hiding the car prize.
+  * @param chosenDoor Door initially chosen by the player.
+  * @param switchedDoor Door the player switches to (if they choose to switch).
+  */
 case class Round(prizeDoor: Int, chosenDoor: Int, switchedDoor: Int)
 
+/** Wraps up the Monty Hall game logic. */
 class MontyHallGame {
-  private final val Doors = Vector(1, 2, 3)
+  private final val Doors = Vector(1, 2, 3) // Constant: represents the doors.
 
+  /** Returns a random door from the available doors.
+    *
+    * @param doors Vector containing the available doors.
+    * @param random Random object for generating random numbers.
+    * @return Randomly chosen door number.
+    */
   def getRandomDoor(doors: Vector[Int], random: Random): Int = {
     doors(random.nextInt(doors.length))
   }
 
+  /** Simulates a round of the Monty Hall game.
+    *
+    * @param random Random object for generating random numbers.
+    * @return Round object representing the outcome of the round.
+    */
   def simulateRound(random: Random): Round = {
     val prizeDoor = getRandomDoor(Doors, random)
 
@@ -31,6 +50,14 @@ class MontyHallGame {
     Round(prizeDoor, chosenDoor, switchedDoor)
   }
 
+  /** Recursively simulates the Monty Hall game for a specified number of trials.
+    *
+    * @param remainingTrials Number of trials remaining to simulate.
+    * @param switchWins Count of wins when switching doors.
+    * @param keepWins Count of wins when keeping the initial choice.
+    * @param random Random object for generating random numbers.
+    * @return Tuple containing counts of wins when switching and keeping the initial choice.
+    */
   @tailrec
   final def simulateGame(
       remainingTrials: Int,
@@ -51,14 +78,24 @@ class MontyHallGame {
   }
 }
 
+/** Contains the main method to run the Monty Hall simulation. */
 object MontyHallSimulation {
-  private final val DefaultNumTrials = 100
+  private final val DefaultNumTrials = 100 // Constant: represents the default number of trials.
 
+  /** Prints a message indicating the usage of the default number of trials.
+    *
+    * @return Default number of trials.
+    */
   def useDefaultNumTrials(): Int = {
     println(s"Using default value: $DefaultNumTrials")
     DefaultNumTrials
   }
 
+  /** Parses the number of trials from command line arguments.
+    *
+    * @param args Command line arguments.
+    * @return Parsed number of trials or default value if parsing fails.
+    */
   def parseNumTrials(args: Array[String]): Int = args match {
     case Array(value) =>
       Try(value.toInt) match {
@@ -75,6 +112,10 @@ object MontyHallSimulation {
       useDefaultNumTrials()
   }
 
+  /** Entry point of the Monty Hall simulation.
+    *
+    * @param args Command line arguments specifying the number of trials (optional).
+    */
   def main(args: Array[String]): Unit = {
     val numTrials = if (args.nonEmpty) parseNumTrials(args) else DefaultNumTrials
     val random = new Random()
