@@ -1,4 +1,4 @@
-# Monty Hall solution
+# Monty Hall solution - with input
 
 The Monty Hall solution is an implementation of the Monty Hall problem, a probability puzzle inspired by a game show. This code simulates the probability problem where a player is presented with three doors, one hiding a car prize and the other two, goats. The player initially selects one door, after which the host reveals a non-chosen door that doesn't hide the car. The player is then given the choice to keep their initial choice or switch to the other unopened door.
 
@@ -64,7 +64,7 @@ To run the Monty Hall solution, follow these steps:
 
    ```
    scalac MontyHallSimulation.scala
-   scala MontyHallSimulation [numTrials]
+   scala MontyHallSimulation
    ```
 
-   Replace `[numTrials]` with the number of trials you want to simulate (optional). If no argument is provided, the simulation runs with a default of 100 trials.
+   Upon running the simulation, you will be prompted to enter the number of trials you want to simulate by typing the desired number in the console and pressing enter. If no input is provided or if invalid input (e.g., non-numeric characters or a number less than or equal to zero) is entered, the simulation runs with a default value of 100 trials.

@@ -9,7 +9,7 @@
   */
 
 import scala.annotation.tailrec
-import scala.util.{Failure, Random, Success, Try}
+import scala.util.{Random, Success, Try}
 
 /** Represents a round of the Monty Hall game.
   *
@@ -78,8 +78,12 @@ class MontyHallGame {
   }
 }
 
-/** Contains the main method to run the Monty Hall simulation. */
-object MontyHallSimulation {
+/** Represents a simulation of the Monty Hall problem.
+  * The simulation allows users to interactively input the number of trials and
+  * showcases the probability outcomes of the game.
+  * It implements the logic through console interactions and simulation.
+  */
+object MontyHallSimulation extends App {
   private final val DefaultNumTrials = 100 // Constant: represents the default number of trials.
 
   /** Prints a message indicating the usage of the default number of trials.
@@ -91,46 +95,36 @@ object MontyHallSimulation {
     DefaultNumTrials
   }
 
-  /** Parses the number of trials from command line arguments.
-    *
-    * @param args Command line arguments.
-    * @return Parsed number of trials or default value if parsing fails.
-    */
-  def parseNumTrials(args: Array[String]): Int = args match {
-    case Array(value) =>
-      Try(value.toInt) match {
-        case Success(trials) if trials > 0 => trials
-        case Success(_) =>
-          println(Console.RED + "Number of trials should be higher than 0.")
-          useDefaultNumTrials()
-        case Failure(_) =>
-          println(Console.RED + "Invalid type of input for number of trials.")
-          useDefaultNumTrials()
-      }
+  println(Console.CYAN + "Monty Hall simulation")
+  print("Enter a number of trials: ")
+
+  val input = scala.io.StdIn.readLine()
+
+  val numTrials = Try(input.toInt) match {
+    case Success(num) if num > 0 => num
+    case Success(_) =>
+      println(Console.RED + "Number of trials should be higher than 0.")
+      useDefaultNumTrials()
     case _ =>
-      println(Console.RED + "Invalid number of arguments, please provide only one argument.")
+      println(Console.RED + "Invalid type of input for number of trials.")
       useDefaultNumTrials()
   }
 
-  /** Entry point of the Monty Hall simulation.
-    *
-    * @param args Command line arguments specifying the number of trials (optional).
+  val random = new Random()
+  val montyHallGame = new MontyHallGame()
+
+  /** Runs the simulation of the Monty Hall problem based on the provided number of trials.
+    * It outputs the results showing the winning percentages of switching or keeping the initial choice.
     */
-  def main(args: Array[String]): Unit = {
-    val numTrials = if (args.nonEmpty) parseNumTrials(args) else DefaultNumTrials
-    val random = new Random()
-    val montyHallGame = new MontyHallGame()
+  val (switchWins, keepWins) = montyHallGame.simulateGame(numTrials, 0, 0, random)
 
-    val (switchWins, keepWins) = montyHallGame.simulateGame(numTrials, 0, 0, random)
+  println(Console.RESET + s"Number of trials in this simulation: $numTrials")
+  println(s"Switching doors wins: $switchWins times")
+  println(s"Keeping initial choice wins: $keepWins times")
 
-    println(Console.RESET + s"Number of trials in this simulation: $numTrials")
-    println(s"Switching doors wins: $switchWins times")
-    println(s"Keeping initial choice wins: $keepWins times")
+  val switchWinPercentage = switchWins.toDouble / numTrials * 100
+  val keepWinPercentage = keepWins.toDouble / numTrials * 100
 
-    val switchWinPercentage = switchWins.toDouble / numTrials * 100
-    val keepWinPercentage = keepWins.toDouble / numTrials * 100
-
-    println(s"Switching doors win percentage: $switchWinPercentage%")
-    println(s"Keeping initial choice win percentage: $keepWinPercentage%")
-  }
+  println(s"Switching doors win percentage: $switchWinPercentage%")
+  println(s"Keeping initial choice win percentage: $keepWinPercentage%")
 }
