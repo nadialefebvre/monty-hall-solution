@@ -67,4 +67,4 @@ To run the Monty Hall solution, follow these steps:
    scala MontyHallSimulation [numTrials]
    ```
 
-   Replace `[numTrials]` with the number of trials you want to simulate (optional). If no argument is provided, the simulation runs with a default of 100 trials.
+   Replace `[numTrials]` with the number of trials you want to simulate (optional). If no argument or if invalid argument (e.g., non-numeric characters or a number less than or equal to zero) is provided, the simulation runs with a default of 100 trials.
