@@ -10,6 +10,22 @@
 import scala.util.Random
 
 object MontyHallSimulation {
+  def getRandomDoor(range: Seq[Int], random: Random): Int = {
+    range(random.nextInt(range.length))
+  }
+
+  def simulateRound(random: Random): (Int, Int, Int) = {
+    val doors = 1 to 3
+
+    val prizeDoor = getRandomDoor(doors, random)
+    val chosenDoor = getRandomDoor(doors, random)
+    val remainingDoors = doors.filterNot(_ == prizeDoor).filterNot(_ == chosenDoor)
+    val openedDoor = getRandomDoor(remainingDoors, random)
+    val switchedDoor = doors.find(door => door != chosenDoor && door != openedDoor).get
+
+    (prizeDoor, chosenDoor, switchedDoor)
+  }
+
   def simulateGame(
       remainingTrials: Int,
       switchWins: Int,
@@ -19,13 +35,7 @@ object MontyHallSimulation {
     if (remainingTrials <= 0) {
       (switchWins, keepWins)
     } else {
-      val doorsRange = 1 to 3
-
-      val prizeDoor = doorsRange(random.nextInt(doorsRange.length))
-      val chosenDoor = doorsRange(random.nextInt(doorsRange.length))
-      val remainingDoors = doorsRange.filterNot(_ == prizeDoor).filterNot(_ == chosenDoor)
-      val openedDoor = remainingDoors(random.nextInt(remainingDoors.length))
-      val switchedDoor = doorsRange.filterNot(_ == chosenDoor).filterNot(_ == openedDoor).head
+      val (prizeDoor, chosenDoor, switchedDoor) = simulateRound(random)
 
       val updatedSwitchWins = if (switchedDoor == prizeDoor) switchWins + 1 else switchWins
       val updatedKeepWins = if (chosenDoor == prizeDoor) keepWins + 1 else keepWins
@@ -40,7 +50,7 @@ object MontyHallSimulation {
   }
 
   def main(args: Array[String]): Unit = {
-    val numTrials = if (args.length > 0) args(0).toInt else 100
+    val numTrials = if (args.nonEmpty) args(0).toInt else 100
 
     val (switchWins, keepWins) = runTrials(numTrials)
 
