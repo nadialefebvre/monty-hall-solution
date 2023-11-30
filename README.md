@@ -68,3 +68,33 @@ To run the Monty Hall solution, follow these steps:
    ```
 
    Upon running the simulation, you will be prompted to enter the number of trials you want to simulate by typing the desired number in the console and pressing enter. If no input is provided or if invalid input (e.g., non-numeric characters or a number less than or equal to zero) is entered, the simulation runs with a default value of 100 trials.
+
+### Trying different simulation methods (branches)
+
+This repository contains different branches showcasing distinct methods for running the Monty Hall simulation. The `with-input` branch, which previously implemented the simulation with user input through the console, has been merged into the `main` branch for demonstration purposes. To explore these variations, follow these steps after cloning the repository:
+
+1. **Switch to different branches**
+
+   - **with-default branch:** This branch simulates the Monty Hall problem with a predefined default number of trials.
+
+     ```
+     git checkout with-default
+     ```
+
+   - **with-argument branch:** This branch allows simulation by passing the number of trials as a command-line argument.
+
+     ```
+     git checkout with-argument
+     ```
+
+   - **with-input branch:** This branch prompts the user in the console to input the number of trials.
+
+     ```
+     git checkout with-input
+     ```
+
+2. **Follow branch-specific instructions**
+
+   Refer to the README within each branch for detailed instructions on how to compile and run the simulation, and interact with it based on the chosen method.
+
+Choose the branch corresponding to the simulation method you want to explore to observe the differences in how the Monty Hall problem is simulated and interacted with.
