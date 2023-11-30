@@ -12,19 +12,18 @@ import scala.util.{Failure, Random, Success, Try}
 
 object MontyHallSimulation {
   val DefaultNumTrials = 100
+  val Doors = Vector(1, 2, 3)
 
-  def getRandomDoor(range: Seq[Int], random: Random): Int = {
+  def getRandomDoor(range: Vector[Int], random: Random): Int = {
     range(random.nextInt(range.length))
   }
 
   def simulateRound(random: Random): (Int, Int, Int) = {
-    val doors = 1 to 3
-
-    val prizeDoor = getRandomDoor(doors, random)
-    val chosenDoor = getRandomDoor(doors, random)
-    val remainingDoors = doors.filterNot(_ == prizeDoor).filterNot(_ == chosenDoor)
+    val prizeDoor = getRandomDoor(Doors, random)
+    val chosenDoor = getRandomDoor(Doors, random)
+    val remainingDoors = Doors.filterNot(_ == prizeDoor).filterNot(_ == chosenDoor)
     val openedDoor = getRandomDoor(remainingDoors, random)
-    val switchedDoor = doors.find(door => door != chosenDoor && door != openedDoor).get
+    val switchedDoor = Doors.find(door => door != chosenDoor && door != openedDoor).get
 
     (prizeDoor, chosenDoor, switchedDoor)
   }
@@ -59,14 +58,14 @@ object MontyHallSimulation {
         case Success(trials) if trials > 0 => trials
         case Success(_) =>
           println(Console.RED + "Number of trials should be higher than 0.")
-          useDefaultNumTrials
+          useDefaultNumTrials()
         case Failure(_) =>
           println(Console.RED + "Invalid type of input for number of trials.")
-          useDefaultNumTrials
+          useDefaultNumTrials()
       }
     case _ =>
       println(Console.RED + "Invalid number of arguments. Please provide only one argument.")
-      useDefaultNumTrials
+      useDefaultNumTrials()
   }
 
   def main(args: Array[String]): Unit = {
