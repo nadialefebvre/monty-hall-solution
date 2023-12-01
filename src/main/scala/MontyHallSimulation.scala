@@ -117,13 +117,14 @@ object MontyHallSimulation {
     * @param args Command line arguments specifying the number of trials (optional).
     */
   def main(args: Array[String]): Unit = {
+    println(Console.CYAN + "Monty Hall simulation")
+
     val numTrials = if (args.nonEmpty) parseNumTrials(args) else DefaultNumTrials
     val random = new Random()
     val montyHallGame = new MontyHallGame()
 
     val (switchWins, keepWins) = montyHallGame.simulateGame(numTrials, 0, 0, random)
 
-    println(Console.CYAN + "Monty Hall simulation")
     println(Console.RESET + s"Number of trials in this simulation: $numTrials")
     println(s"Switching doors wins: $switchWins times")
     println(s"Keeping initial choice wins: $keepWins times")
