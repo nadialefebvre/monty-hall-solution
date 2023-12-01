@@ -36,7 +36,7 @@ The code is structured into two main classes:
 
 - **Input validation**: The code validates user input for the number of trials, ensuring it's a positive integer greater than zero. It defaults to a predefined value if invalid input is provided.
 
-- **Error handling**: Proper error handling using `Try` and `Success`/`Failure` cases is implemented to handle parsing errors and invalid input types.
+- **Error handling**: Proper error handling using `Try` and `Success` cases is implemented to handle parsing errors and invalid input types.
 
 ### Randomness and simulations
 
