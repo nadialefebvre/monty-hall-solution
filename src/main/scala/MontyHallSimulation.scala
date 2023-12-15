@@ -84,7 +84,7 @@ class MontyHallGame {
   * It implements the logic through console interactions and simulation.
   */
 object MontyHallSimulation extends App {
-  private final val DefaultNumTrials = 100 // Constant: represents the default number of trials.
+  final val DefaultNumTrials = 100 // Constant: represents the default number of trials.
 
   /** Prints a message indicating the usage of the default number of trials.
     *
