@@ -1,3 +1,4 @@
+import MontyHallSimulation._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -68,6 +69,7 @@ class MontyHallSimulationTest extends AnyWordSpec with Matchers {
     }
 
     "handling input scenarios" should {
+      val defaultNumTrials = MontyHallSimulation.DefaultNumTrials
 
       /** Tests the behavior of the program when handling invalid inputs. */
       "use default numTrials when input is invalid" in {
@@ -79,19 +81,19 @@ class MontyHallSimulationTest extends AnyWordSpec with Matchers {
 
           Console.withIn(inputStream) {
             Console.withOut(outputStream) {
-              MontyHallSimulation.useDefaultNumTrials() shouldBe 100
+              MontyHallSimulation.useDefaultNumTrials() shouldBe defaultNumTrials
             }
           }
 
           val output = outputStream.toString.trim
-          output shouldBe "Using default value: 100"
+          output shouldBe s"Using default value: $defaultNumTrials"
           outputStream.reset()
         }
       }
 
       /** Tests the behavior of the program when handling a valid input. */
       "not use default numTrials when input is valid" in {
-        val input = "200"
+        val input = "1000"
         val inputStream = new ByteArrayInputStream(input.getBytes)
         val outputStream = new ByteArrayOutputStream()
 
@@ -103,7 +105,7 @@ class MontyHallSimulationTest extends AnyWordSpec with Matchers {
         }
 
         val output = outputStream.toString.trim
-        output should not be "Using default value: 100"
+        output should not be s"Using default value: $defaultNumTrials"
         outputStream.reset()
       }
     }
