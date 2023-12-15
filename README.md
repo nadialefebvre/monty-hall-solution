@@ -2,6 +2,14 @@
 
 The Monty Hall solution is an implementation of the Monty Hall problem, a probability puzzle inspired by a game show. This code simulates the probability problem where a player is presented with three doors, one hiding a car prize and the other two, goats. The player initially selects one door, after which the host reveals a non-chosen door that doesn't hide the car. The player is then given the choice to keep their initial choice or switch to the other unopened door.
 
+**Table of contents**
+
+- [Problem overview](#problem-overview)
+- [Tech stack](#tech-stack)
+- [Code design choices](#code-design-choices)
+- [Test coverage](#test-coverage)
+- [Usage](#usage)
+
 ## Problem overview
 
 The simulation demonstrates the counterintuitive nature of the Monty Hall problem, indicating that statistically, it's advantageous for the player to switch doors after the host reveals one of the non-chosen doors.
@@ -39,6 +47,10 @@ The code is structured into two main classes:
 ### Clear console outputs and messages
 
 - **Informative console outputs**: The code provides clear and informative messages in the console, indicating the number of trials performed, counts of wins and win percentages for switching doors versus keeping the initial choice.
+
+## Test coverage
+
+The codebase includes comprehensive unit tests covering various aspects of the Monty Hall simulation. These tests ensure the correctness and reliability of the implemented logic.
 
 ## Usage
 
